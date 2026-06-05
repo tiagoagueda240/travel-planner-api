@@ -30,7 +30,7 @@ application:
         expiration: 604800000 # 7 days
   ai:
     gemini:
-      api-key: ${GEMINI_API_KEY:your-gemini-api-key-here}
+      api-key: ${GEMINI_API_KEY}
       model: gemini-2.0-flash
 
 logging:

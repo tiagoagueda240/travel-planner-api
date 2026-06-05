@@ -35,13 +35,13 @@ public class TripController {
             summary = "Generate a new AI itinerary",
             description = """
                     Calls **Gemini AI with Google Search Grounding** to generate a real, up-to-date itinerary.
-                    
+
                     The AI groups places by geographic proximity to avoid daily zigzag routes.
                     After the AI response, the API calls **OSRM** (free, no key needed) to convert GPS waypoints
                     into a real road-following GeoJSON LineString for each day — ready to animate on MapLibre.
-                    
+
                     The itinerary language is determined by the user's `preferredLanguage` profile setting.
-                    
+
                     ⚠️ This endpoint calls external APIs and may take **5-15 seconds**.
                     """
     )
@@ -171,86 +171,6 @@ public class TripController {
             @Parameter(description = "Trip ID", example = "1") @PathVariable Long tripId,
             @Parameter(description = "Day ID", example = "10") @PathVariable Long dayId,
             @Parameter(description = "Place ID", example = "100") @PathVariable Long placeId,
-            @Valid @RequestBody UpdatePlaceRequest request
-    ) {
-        User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(tripService.updatePlace(tripId, dayId, placeId, user, request));
-    }
-}
-
-
-@RestController
-@RequestMapping("/api/v1/trips")
-@RequiredArgsConstructor
-public class TripController {
-
-    private final TripService tripService;
-
-    // ── Trip CRUD ─────────────────────────────────────────────────────────────
-
-    @PostMapping("/generate")
-    public ResponseEntity<Trip> generateTrip(
-            Authentication authentication,
-            @Valid @RequestBody GenerateTripRequest request
-    ) {
-        User user = (User) authentication.getPrincipal();
-        return ResponseEntity.status(HttpStatus.CREATED).body(tripService.generateAndSave(request, user));
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<Trip>> getUserTrips(
-            Authentication authentication,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        User user = (User) authentication.getPrincipal();
-        Pageable pageable = PageRequest.of(page, Math.min(size, 50));
-        return ResponseEntity.ok(tripService.getUserTrips(user, pageable));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Trip> getTripById(Authentication authentication, @PathVariable Long id) {
-        User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(tripService.getTripById(id, user));
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<Trip> updateTrip(
-            Authentication authentication,
-            @PathVariable Long id,
-            @Valid @RequestBody UpdateTripRequest request
-    ) {
-        User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(tripService.updateTrip(id, user, request));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTrip(Authentication authentication, @PathVariable Long id) {
-        User user = (User) authentication.getPrincipal();
-        tripService.deleteTrip(id, user);
-        return ResponseEntity.noContent().build();
-    }
-
-    // ── Day ───────────────────────────────────────────────────────────────────
-
-    @GetMapping("/{tripId}/days/{dayId}")
-    public ResponseEntity<Day> getDay(
-            Authentication authentication,
-            @PathVariable Long tripId,
-            @PathVariable Long dayId
-    ) {
-        User user = (User) authentication.getPrincipal();
-        return ResponseEntity.ok(tripService.getDayById(tripId, dayId, user));
-    }
-
-    // ── Place ─────────────────────────────────────────────────────────────────
-
-    @PatchMapping("/{tripId}/days/{dayId}/places/{placeId}")
-    public ResponseEntity<Place> updatePlace(
-            Authentication authentication,
-            @PathVariable Long tripId,
-            @PathVariable Long dayId,
-            @PathVariable Long placeId,
             @Valid @RequestBody UpdatePlaceRequest request
     ) {
         User user = (User) authentication.getPrincipal();

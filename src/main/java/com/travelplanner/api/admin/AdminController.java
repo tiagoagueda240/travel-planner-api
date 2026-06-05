@@ -77,30 +77,3 @@ public class AdminController {
     }
 }
 
-
-    private final AdminService adminService;
-
-    @GetMapping("/stats")
-    public ResponseEntity<AdminService.AppStats> getStats() {
-        return ResponseEntity.ok(adminService.getStats());
-    }
-
-    @GetMapping("/users")
-    public ResponseEntity<Page<User>> listUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
-    ) {
-        return ResponseEntity.ok(adminService.listUsers(PageRequest.of(page, Math.min(size, 100))));
-    }
-
-    @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        return ResponseEntity.ok(adminService.getUserById(id));
-    }
-
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        adminService.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
-}
