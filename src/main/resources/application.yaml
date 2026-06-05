@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    # 2. ALTERADO: Usar variáveis de ambiente para a BD, mantendo o localhost como fallback para o teu PC
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/travelplanner}
+    username: ${DB_USERNAME:agueda}
+    password: ${DB_PASSWORD:}
+
+  jpa:
+    hibernate:
+      ddl-auto: update # O Spring cria/atualiza as tabelas automaticamente (ótimo para desenvolvimento)
+    show-sql: true # Mostra as queries na consola
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Vamos já deixar a chave secreta do JWT aqui configurada
+application:
+  security:
+    jwt:
+      # Gera uma string aleatória forte de 256 bits (ex: num gerador de chaves) e cola aqui
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # 1 dia em milissegundos
