@@ -1,6 +1,6 @@
 package com.travelplanner.api.exception;
 
-import tools.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
 

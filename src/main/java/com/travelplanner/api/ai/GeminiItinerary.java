@@ -1,6 +1,6 @@
 package com.travelplanner.api.ai;
 
-import tools.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.travelplanner.api.models;
 
-import tools.jackson.annotation.JsonIgnore;
-import tools.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

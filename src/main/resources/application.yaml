@@ -16,9 +16,6 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  jackson:
-    default-property-inclusion: non_null
-
 application:
   security:
     jwt:
